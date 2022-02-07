@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	controls.addEventListener('click', (e) => {
 		if (e.target.classList.contains('controls__left')) {
 			changeSlide('left')
-
 		}
 		if (e.target.classList.contains('controls__right')) {
 			changeSlide('right')
@@ -61,6 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
 				const way = mouseMoveX - mouseStartX;
 				sliderWrapper.style.transform = `translateX(-${width * index - way}px)`
 			}
+		} else {
+			mouseMoveX = 0
 		}
 	}
 
@@ -70,9 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
 				sliderWrapper.style.transform = `translateX(-${width * index}px)`
 			}
 		})
-		if (mouseMoveX) {
+		if (mouseMoveX != 0) {
 			const mouseEndX = e.clientX;
 			const way = mouseEndX - mouseStartX;
+			console.log(way);
+			if (way < Math.round(width / 6) || -way < Math.round(width / 6)) {
+				sliderWrapper.style.transform = `translateX(-${width * index}px)`
+			}
 			if (-way >= Math.round(width / 6)) {
 				changeSlide('right')
 			}

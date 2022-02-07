@@ -74,7 +74,7 @@ li {
 
 .slider__controls {
 	display: flex;
-	cursor: pointer;
+	
 	justify-content: center;
 }
 .controls {
@@ -89,6 +89,7 @@ li {
 	height: 40px;
 	background: url('../img/arrow-icon.svg') center/cover no-repeat;
 	transform: rotate(-180deg);
+	cursor: pointer;
 }
 
 .controls__right {
@@ -99,4 +100,5 @@ li {
 	width: 40px;
 	height: 40px;
 	background: url('../img/arrow-icon.svg') center/cover no-repeat;
+	cursor: pointer;
 }
