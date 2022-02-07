@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
 	const width = slide.clientWidth;
 	const inactiveAllSlides = () => {
 		slides.forEach(slide => {
-			slide.classList.remove('active')
+			slide.classList.remove('current')
 		})
 	}
 
-	slides[index].classList.add('active')
+	slides[index].classList.add('current')
 
 	controls.addEventListener('click', (e) => {
 		if (e.target.classList.contains('controls__left')) {
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (index === slides.length) {
 				index = slides.length - 1
 			}
-			slides[index].classList.add('active')
+			slides[index].classList.add('current')
 		}
 		if (direction === 'left') {
 			inactiveAllSlides()
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
 			if (index < 0) {
 				index = 0;
 			}
-			slides[index].classList.add('active')
+			slides[index].classList.add('current')
 		}
 		sliderWrapper.style.transform = `translateX(-${width * index}px)`
 	}
