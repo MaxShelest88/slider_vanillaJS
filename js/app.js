@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function setMouseEnd(e) {
-		slides.forEach((el, i, arr) => {
+		slides.forEach(el => {
 			if (e.target.closest('.slide') === el || e.target === el) {
 				sliderWrapper.style.transform = `translateX(-${width * index}px)`
 			}
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				changeSlide('left')
 			}
 		}
-		
+
 	}
 
 	document.addEventListener('mousedown', setMouseStart)
