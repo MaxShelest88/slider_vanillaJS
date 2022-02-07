@@ -25,43 +25,55 @@ document.addEventListener('DOMContentLoaded', () => {
 	})
 
 	function changeSlide(direction) {
-		if (direction === 'right') {
-			inactiveAllSlides()
-			index++;
-			if (index === slides.length) {
-				index = slides.length - 1
-			}
-			slides[index].classList.add('current')
-		}
-		if (direction === 'left') {
-			inactiveAllSlides()
-			index--;
-			if (index < 0) {
-				index = 0;
-			}
-			slides[index].classList.add('current')
+		switch (direction) {
+			case 'right':
+				inactiveAllSlides()
+				index++;
+				if (index === slides.length) {
+					index = slides.length - 1
+				}
+				slides[index].classList.add('current')
+				break;
+			case 'left':
+				inactiveAllSlides()
+				index--;
+				if (index < 0) {
+					index = 0;
+				}
+				slides[index].classList.add('current')
+				break;
 		}
 		sliderWrapper.style.transform = `translateX(-${width * index}px)`
 	}
 
-	slides.forEach(el => {
+	slides.forEach((el, i) => {
 		let mouseStartX = 0;
 		let mouseEndX = 0;
 		function setMouseStart(e) {
 			mouseStartX = e.clientX;
+
 		}
 		function setMouseMove(e) {
 			e.preventDefault()
-			mouseEndX = e.clientX;
+			if (e.which == 1) {
+				mouseEndX = e.clientX;
+				const way = mouseEndX - mouseStartX;
+				console.log(way);
+				if (way < Math.round(width / 6)) {
+					sliderWrapper.style.transform = `translateX(-${width * index - way}px)`
+				}
+			}
 		}
-
 		function setMouseEnd(e) {
 			mouseEndX = e.clientX;
 			const way = mouseEndX - mouseStartX;
-			if (-way > Math.round(width / 6)) {
+			if (slides[i] = el) {
+				sliderWrapper.style.transform = `translateX(-${width * index}px)`
+			}
+			if (-way >= Math.round(width / 6)) {
 				changeSlide('right')
 			}
-			if (way > Math.round(width / 6)) {
+			if (way >= Math.round(width / 6)) {
 				changeSlide('left')
 			}
 		}
