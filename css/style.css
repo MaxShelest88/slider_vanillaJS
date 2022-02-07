@@ -54,7 +54,7 @@ li {
 .slider__slide {
 	position: relative;
 	height: 400px;
-	flex: 0 0 100%;
+	flex: 0 0 33.333%;
 	width: 100%;
 	transition: transform 0.5s ease;
 }
