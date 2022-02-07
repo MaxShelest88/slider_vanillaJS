@@ -74,13 +74,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (mouseMoveX != 0) {
 			const mouseEndX = e.clientX;
 			const way = mouseEndX - mouseStartX;
-			if (way < Math.round(width / 6) || -way < Math.round(width / 6)) {
+			if (way < Math.round(width / 7) || -way < Math.round(width / 7)) {
 				sliderWrapper.style.transform = `translateX(-${width * index}px)`
 			}
-			if (-way >= Math.round(width / 6)) {
+			if (-way >= Math.round(width / 7)) {
 				changeSlide('right')
 			}
-			if (way >= Math.round(width / 6)) {
+			if (way >= Math.round(width / 7)) {
 				changeSlide('left')
 			}
 		}
