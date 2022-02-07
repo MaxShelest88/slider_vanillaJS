@@ -46,25 +46,29 @@ document.addEventListener('DOMContentLoaded', () => {
 		sliderWrapper.style.transform = `translateX(-${width * index}px)`
 	}
 
-	slides.forEach((el, i) => {
-		let mouseStartX = 0;
-		let mouseEndX = 0;
-		function setMouseStart(e) {
-			mouseStartX = e.clientX;
 
+	let mouseStartX = 0;
+	let mouseEndX = 0;
+
+	function setMouseStart(e) {
+		if (e.target.closest('.slide')) {
+			mouseStartX = e.clientX;
 		}
-		function setMouseMove(e) {
-			e.preventDefault()
-			if (e.which == 1) {
-				mouseEndX = e.clientX;
-				const way = mouseEndX - mouseStartX;
-				console.log(way);
-				if (way < Math.round(width / 6)) {
-					sliderWrapper.style.transform = `translateX(-${width * index - way}px)`
-				}
+	}
+
+	function setMouseMove(e) {
+		e.preventDefault()
+		if (e.which == 1) {
+			mouseEndX = e.clientX;
+			const way = mouseEndX - mouseStartX;
+			if (way < Math.round(width / 6)) {
+				sliderWrapper.style.transform = `translateX(-${width * index - way}px)`
 			}
 		}
-		function setMouseEnd(e) {
+	}
+
+	function setMouseEnd(e, i, el) {
+		if (e.target.closest('.slide')) {
 			mouseEndX = e.clientX;
 			const way = mouseEndX - mouseStartX;
 			if (slides[i] = el) {
@@ -78,10 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
 			}
 		}
 
+	}
+
+	slides.forEach((el, i) => {
 		el.addEventListener('mousedown', setMouseStart)
 		el.addEventListener('mousemove', setMouseMove)
 		el.addEventListener('mouseup', setMouseEnd)
-
 	})
 
 })
