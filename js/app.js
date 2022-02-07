@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		}
 		if (e.target.classList.contains('controls__right')) {
 			changeSlide('right')
-
 		}
 	})
 
@@ -46,9 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
 		sliderWrapper.style.transform = `translateX(-${width * index}px)`
 	}
 
-
 	let mouseStartX = 0;
-	let mouseEndX = 0;
+	let mouseMoveX = 0;
 	function setMouseStart(e) {
 		if (e.target.closest('.slide') || e.target.classList.contains('.slide')) {
 			mouseStartX = e.clientX;
@@ -59,28 +57,30 @@ document.addEventListener('DOMContentLoaded', () => {
 		e.preventDefault()
 		if (e.which == 1) {
 			if (e.target.closest('.slide') || e.target.classList.contains('.slide')) {
-				mouseEndX = e.clientX;
-				const way = mouseEndX - mouseStartX;
+				mouseMoveX = e.clientX;
+				const way = mouseMoveX - mouseStartX;
 				sliderWrapper.style.transform = `translateX(-${width * index - way}px)`
 			}
 		}
 	}
 
 	function setMouseEnd(e) {
-		mouseEndX = e.clientX;
-		const way = mouseEndX - mouseStartX;
-		slides.forEach(el => {
+		slides.forEach((el, i, arr) => {
 			if (e.target.closest('.slide') === el || e.target === el) {
 				sliderWrapper.style.transform = `translateX(-${width * index}px)`
 			}
 		})
-
-		if (-way >= Math.round(width / 6)) {
-			changeSlide('right')
+		if (mouseMoveX) {
+			const mouseEndX = e.clientX;
+			const way = mouseEndX - mouseStartX;
+			if (-way >= Math.round(width / 6)) {
+				changeSlide('right')
+			}
+			if (way >= Math.round(width / 6)) {
+				changeSlide('left')
+			}
 		}
-		if (way >= Math.round(width / 6)) {
-			changeSlide('left')
-		}
+		
 	}
 
 	document.addEventListener('mousedown', setMouseStart)

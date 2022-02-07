@@ -57,7 +57,6 @@ li {
 	flex: 0 0 100%;
 	width: 100%;
 	transition: transform 0.5s ease;
-	
 }
 
 .slide:active {
@@ -82,14 +81,22 @@ li {
 }
 .controls__left {
 	margin: 0px 20px 0px 0px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px;
+	width: 40px;
+	height: 40px;
+	background: url('../img/arrow-icon.svg') center/cover no-repeat;
+	transform: rotate(-180deg);
 }
 
-.active {
-	
-}
-
-.inactive {
-	flex: 1;
-}
 .controls__right {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 10px;
+	width: 40px;
+	height: 40px;
+	background: url('../img/arrow-icon.svg') center/cover no-repeat;
 }
