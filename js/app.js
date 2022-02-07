@@ -46,44 +46,46 @@ document.addEventListener('DOMContentLoaded', () => {
 		sliderWrapper.style.transform = `translateX(-${width * index}px)`
 	}
 
-	slides.forEach((el, i) => {
-		let mouseStartX = 0;
-		let mouseEndX = 0;
-		function setMouseStart(e) {
+
+	let mouseStartX = 0;
+	let mouseEndX = 0;
+	function setMouseStart(e) {
+		if (e.target.closest('.slide') || e.target.classList.contains('.slide')) {
 			mouseStartX = e.clientX;
 		}
-		function setMouseMove(e) {
-			e.preventDefault()
-			if (e.which == 1) {
+	}
+
+	function setMouseMove(e) {
+		e.preventDefault()
+		if (e.which == 1) {
+			if (e.target.closest('.slide') || e.target.classList.contains('.slide')) {
 				mouseEndX = e.clientX;
 				const way = mouseEndX - mouseStartX;
-				if (way < Math.round(width / 6)) {
-					sliderWrapper.style.transform = `translateX(-${width * index - way}px)`
-				}
+				sliderWrapper.style.transform = `translateX(-${width * index - way}px)`
 			}
 		}
-		function setMouseEnd(e) {
-			mouseEndX = e.clientX;
-			const way = mouseEndX - mouseStartX;
-			if (slides[i] = el) {
+	}
+
+	function setMouseEnd(e) {
+		mouseEndX = e.clientX;
+		const way = mouseEndX - mouseStartX;
+		slides.forEach(el => {
+			if (e.target.closest('.slide') === el || e.target === el) {
 				sliderWrapper.style.transform = `translateX(-${width * index}px)`
 			}
-			if (-way >= Math.round(width / 6)) {
-				changeSlide('right')
-			}
-			if (way >= Math.round(width / 6)) {
-				changeSlide('left')
-			}
+		})
+
+		if (-way >= Math.round(width / 6)) {
+			changeSlide('right')
 		}
+		if (way >= Math.round(width / 6)) {
+			changeSlide('left')
+		}
+	}
 
-		el.addEventListener('mousedown', setMouseStart)
-		el.addEventListener('mousemove', setMouseMove)
-		el.addEventListener('mouseup', setMouseEnd)
-
-	})
-
-
-
+	document.addEventListener('mousedown', setMouseStart)
+	document.addEventListener('mousemove', setMouseMove)
+	document.addEventListener('mouseup', setMouseEnd)
 })
 
 
