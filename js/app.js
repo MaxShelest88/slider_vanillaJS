@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (mouseMoveX != 0) {
 			const mouseEndX = e.clientX;
 			const way = mouseEndX - mouseStartX;
-			console.log(way);
 			if (way < Math.round(width / 6) || -way < Math.round(width / 6)) {
 				sliderWrapper.style.transform = `translateX(-${width * index}px)`
 			}
