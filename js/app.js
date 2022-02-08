@@ -101,6 +101,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 sliderControls: true,
                 index: 0
             }
+            this.mouseCoords ={
+                mouseStart: 0,
+                mouseMoveX: 0,
+                mouseEndX: 0,
+            }
         }
 
         createSlider() {
@@ -179,69 +184,54 @@ document.addEventListener('DOMContentLoaded', () => {
             })
         }
 
-        swipe() {
-            const options = {
-                mouseStart: 0,
-                mouseMoveX: 0,
-                mouseEndX: 0
-            }
-
-            const slides = this.slides;
-            const wrapper = this.wrapper;
-            const index = this.options.index;
-            const width = this.slideWidth;
-            const changeLeft = () => this.changeSlide('left');
-            const changeRight = ()=> this.changeSlide('right');
-
-
-            function setMouseStart(e) {
-                if (e.target.closest('.slide') || e.target.classList.contains('.slide')) {
-                    options.mouseStartX = e.clientX;
-                }
-            }
-
-            function setMouseMove(e) {
-                e.preventDefault()
-                if (e.which === 1) {
-                    if (e.target.closest('.slide') || e.target.classList.contains('.slide')) {
-                        options.mouseMoveX = e.clientX;
-                        const way = options.mouseMoveX - options.mouseStartX;
-                        this.wrapper.style.transform = `translateX(-${this.slideWidth * this.options.index - way}px)`
-                    }
-                } else {
-                    options.mouseMoveX = 0
-                }
-            }
-
-            function swipeSlide(e) {
-                this.slides.forEach(el => {
-                    if (e.target.closest('.slide') || e.target === el) {
-                        this.wrapper.style.transform = `translateX(-${width * this.options.index}px)`
-                    }
-                })
-                if (options.mouseMoveX !== 0) {
-                    options.mouseEndX = e.clientX;
-                    const way = options.mouseEndX - options.mouseStartX;
-                    const swipeWidth = Math.round(this.slideWidth / 7)
-                    if (way < swipeWidth || -way < swipeWidth) {
-                        this.wrapper.style.transform = `translateX(-${this.slideWidth * this.options.index}px)`
-                    }
-                    if (-way >= swipeWidth) {
-                        this.changeSlide('right');
-                    }
-                    if (way >= swipeWidth) {
-                        this.changeSlide('left');
-                    }
-                }
-
-            }
-
-            document.addEventListener('mousedown', setMouseStart)
-            document.addEventListener('mousemove', setMouseMove)
-            document.addEventListener('mouseup', swipeSlide)
+        swipe(){
+            document.addEventListener('mousedown', this.setMouseStart.bind(this))
+            document.addEventListener('mousemove', this.setMouseMove.bind(this))
+            document.addEventListener('mouseup', this.swipeSlide.bind(this))
         }
 
+        setMouseStart(e) {
+            if (e.target.closest('.slide') || e.target.classList.contains('.slide')) {
+                this.mouseCoords.mouseStartX = e.clientX;
+            }
+        }
+
+        setMouseMove(e) {
+            e.preventDefault()
+            if (e.which === 1) {
+                if (e.target.closest('.slide') || e.target.classList.contains('.slide')) {
+                    this.mouseCoords.mouseMoveX = e.clientX;
+                    const way = this.mouseCoords.mouseMoveX - this.mouseCoords.mouseStartX;
+                    this.wrapper.style.transform = `translateX(-${this.slideWidth * this.options.index - way}px)`
+                }
+            } else {
+                this.mouseCoords.mouseMoveX = 0
+            }
+        }
+
+        swipeSlide(e) {
+            this.slides.forEach(el => {
+                if (e.target.closest('.slide') || e.target === el) {
+                    this.wrapper.style.transform = `translateX(-${this.slideWidth * this.options.index}px)`
+                }
+            })
+            if (this.mouseCoords.mouseMoveX !== 0) {
+                this.mouseCoords.mouseEndX = e.clientX;
+                const way = this.mouseCoords.mouseEndX - this.mouseCoords.mouseStartX;
+                const swipeWidth = Math.round(this.slideWidth / 7)
+                if (way < swipeWidth || -way < swipeWidth) {
+                    this.wrapper.style.transform = `translateX(-${this.slideWidth * this.options.index}px)`
+                }
+                if (-way >= swipeWidth) {
+                    this.changeSlide('right')
+                }
+                if (way >= swipeWidth) {
+                    this.changeSlide('left')
+                }
+            }
+        }
     }
+
 
     const newSlider = new Slider('.slider__body')
     newSlider.createSlider()
